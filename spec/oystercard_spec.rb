@@ -65,12 +65,6 @@ describe Oystercard do
       subject.touch_in(station)
       expect {subject.touch_out(station)}.to change{subject.balance}.by(-Oystercard::MINIMUM_AMOUNT)
     end
-
-    it "forgets the entry station" do
-      subject.touch_in(station)
-      subject.touch_out(station)
-      expect(subject.entry_station).to eq nil
-    end
   end
 
   describe '#trips' do
