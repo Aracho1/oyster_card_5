@@ -11,4 +11,5 @@ describe Station do
     london = Station.new("London", 1)
     expect(london.zone).to eq 1
   end
+  
 end

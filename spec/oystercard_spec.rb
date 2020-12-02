@@ -33,17 +33,13 @@ describe Oystercard do
     end
  end
 
-  describe '#in_journey?' do
-    it 'is initially not in a journey' do
-      expect(subject).not_to be_in_journey
-    end
-  end
+
 
   describe '#touch_in' do
     it 'can touch in' do
-      subject.top_up(Oystercard::MINIMUM_AMOUNT)
+      subject.top_up(Journey::MINIMUM_AMOUNT)
       subject.touch_in(station)
-      expect(subject).to be_in_journey
+      expect(subject.journey).to be_in_journey
     end
 
     it 'throws an error if balance is less than minimum amount' do
@@ -54,31 +50,17 @@ describe Oystercard do
 
   describe '#touch_out' do
     include_context "fully topped up oystercard"
-
     it 'can touch out' do
       subject.touch_in(station)
       subject.touch_out(station)
-      expect(subject).not_to be_in_journey
+      expect(subject.journey).not_to be_in_journey
     end
 
     it 'deducts amount from balance for journey' do
       subject.touch_in(station)
-      expect {subject.touch_out(station)}.to change{subject.balance}.by(-Oystercard::MINIMUM_AMOUNT)
+      expect {subject.touch_out(station)}.to change{subject.balance}.by(-Journey::MINIMUM_AMOUNT)
     end
   end
 
-  describe '#trips' do
-
-    it "is empty by default" do
-      expect(subject.trips).to be_empty
-    end
-
-    it 'returns all previous trips' do
-      subject.top_up(Oystercard::MINIMUM_AMOUNT)
-      subject.touch_in(station)
-      subject.touch_out(station)
-      expect(subject.trips).to include(1 => [station,station])
-    end
-  end
 
 end
