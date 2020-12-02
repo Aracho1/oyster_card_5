@@ -50,11 +50,6 @@ describe Oystercard do
       expect{ subject.touch_in(station) }.to raise_error "Insufficient balance on card"
     end
 
-    it "remembers the entry station" do
-      subject.top_up(1)
-      subject.touch_in(station)
-      expect(subject.entry_station).to eq station
-    end
   end
 
   describe '#touch_out' do
@@ -79,12 +74,16 @@ describe Oystercard do
   end
 
   describe '#trips' do
-    pending "need to figure out how to test for hash"
+
+    it "is empty by default" do
+      expect(subject.trips).to be_empty
+    end
+
     it 'returns all previous trips' do
       subject.top_up(Oystercard::MINIMUM_AMOUNT)
       subject.touch_in(station)
       subject.touch_out(station)
-      expect(subject.trips).to eq {1, [station,station]}
+      expect(subject.trips).to include(1 => [station,station])
     end
   end
 
