@@ -2,42 +2,32 @@ require_relative 'oystercard'
 
 class Journey
 
-  attr_reader :trips
-
   PENALTY = 6
   MINIMUM_AMOUNT = 1
 
-  def initialize(card)
-    @card = card
-    @trips = {}
+  def intialize(start_station = nil, exit_station = nil)
+    @start_station = start_station
+    @exit_station = exit_station
   end
 
-  def penalty_fare
-    @card.deduct(PENALTY)
+  def start(station)
+    @start_station = station
+  end
+
+  def exit(station)
+    @exit_station = station
   end
 
   def in_journey?
-    if trips.empty? then false elsif no_exit? then true else false end
+    !start_station.nil? && exit_station.nil?
   end
 
-  def no_exit?
-    @trips[trips.count][1] == nil
-  end
-
-  def add_entry_station(station)
-    @trips[@trips.count + 1] = [station, nil]
-  end
-
-  def add_exit_station(station)
-    @trips[@trips.count][1] = station
+  def valid_trip?
+    !start_station.nil? && !exit_station.nil?
   end
 
   def fare
-    penalty? ? PENALTY : MINIMUM_AMOUNT
-  end
-
-  def penalty?
-    @trips[@trips.count][0] == nil || @trips[@trips.count][1] == nil
+    valid_trip? ? PENALTY : MINIMUM_AMOUNT
   end
 
 
