@@ -6,14 +6,18 @@ describe Journey do
 
 
   let(:card) { double }
-  let(:subject) { Journey.new(card)}
+  let(:subject) { Journey.new}
   let(:station) { double }
 
-  it 'deducts penalty fare from the card if i fail to touch in' do
-    allow(card).to receive(:deduct)
-    expect(card).to receive(:deduct)
-    subject.penalty_fare
-  end
+  describe '#in_journey?' do
+    it 'is initially not in a journey' do
+      expect(subject).not_to be_in_journey
+    end
 
+    it "should return true when in journey" do
+      subject.start(station)
+      expect(subject.in_journey?).to eq(true)
+    end
+  end
 
 end

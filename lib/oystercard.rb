@@ -23,12 +23,13 @@ class Oystercard
 
     @journey_log = JourneyLog.new(self)
 
-    @journey_log.add_entry_station(station)
+    @journey_log.start(station)
   end
 
   def touch_out(station)
-    @journey_log.add_exit_station(station)
-    deduct(@journey_log.current_journey.fare)
+    @journey_log.finish(station)
+    @current_fare = @journey_log.trip_complete
+    deduct(@current_fare)
   end
 
   def deduct(fare)

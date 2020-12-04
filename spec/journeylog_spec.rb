@@ -20,22 +20,16 @@ describe JourneyLog do
     end
   end
 
-  describe '#in_journey?' do
-    it 'is initially not in a journey' do
-      expect(subject).not_to be_in_journey
-    end
-  end
-
-  describe '#add_entry_station' do
+  describe '#start' do
     it 'should start a new journey with an entry station' do
       station = double(:station)
-      expect(subject).to respond_to(:add_entry_station)
+      expect(subject).to respond_to(:start)
     end
   end
 
   it 'returns all previous trips' do
-    subject.add_entry_station(station)
-    subject.add_exit_station(station)
-    expect(subject.trips).to include(1 => [station,station])
+    subject.start("start_station")
+    subject.finish("exit_station")
+    expect(subject.trips).to include(["start_station","exit_station"])
   end
 end

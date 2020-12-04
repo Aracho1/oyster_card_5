@@ -2,6 +2,8 @@ require_relative 'oystercard'
 
 class Journey
 
+  attr_reader :penalty, :minimum_amount
+
   PENALTY = 6
   MINIMUM_AMOUNT = 1
 
@@ -19,11 +21,11 @@ class Journey
   end
 
   def in_journey?
-    !start_station.nil? && exit_station.nil?
+    !@start_station.nil? && @exit_station.nil?
   end
 
   def valid_trip?
-    !start_station.nil? && !exit_station.nil?
+    !@start_station.nil? && !@exit_station.nil?
   end
 
   def fare
